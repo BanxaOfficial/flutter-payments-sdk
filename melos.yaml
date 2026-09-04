@@ -1,0 +1,9 @@
+name: banxa_payments_flutter
+repository: https://github.com/BanxaOfficial/flutter-payments-sdk
+
+packages:
+  - packages/**
+
+command:
+  bootstrap:
+    usePubspecOverrides: true

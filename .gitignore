@@ -1,0 +1,89 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+**/doc/api/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# IDE / local agent
+.idea/
+*.iml
+.vscode/
+.cursor/
+.claude/
+.fvm/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env / secrets — never commit partner keys or signing material
+.env
+.env.*
+!.env.example
+.envrc
+export.env
+*.pem
+*.p8
+*.p12
+*.cer
+*.mobileprovision
+*.secret
+**/Secrets.xcconfig
+**/local.properties
+**/key.properties
+**/*.jks
+**/*.keystore
+**/google-services.json
+**/GoogleService-Info.plist
+
+# Coverage / test
+coverage/
+*.lcov
+
+# Android
+**/.gradle/
+**/.cxx/
+**/android/**/captures/
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+**/android/**/GeneratedPluginRegistrant.java
+*.apk
+*.aab
+*.hprof
+
+# iOS / macOS
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/ephemeral/
+**/macos/Flutter/ephemeral/
+**/Pods/
+**/DerivedData/
+**/.swiftpm/
+*.xcworkspace
+!default.xcworkspace
+xcuserdata/
+*.xcuserstate
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Melos
+pubspec_overrides.yaml
+**/pubspec_overrides.yaml
+.melos/
+
+# Internal notes not for the public tree
+SDK_REVIEW_TASKS.md
+
+# Misc
+*.log
+node_modules/

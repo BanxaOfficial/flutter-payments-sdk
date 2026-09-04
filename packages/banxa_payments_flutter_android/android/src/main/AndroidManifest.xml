@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.banxa.flutterpaymentsdk">
+
+  <uses-permission android:name="android.permission.INTERNET" />
+
+  <application>
+    <!-- Dedicated Activity hosts Primer Compose UI (not embedded in a PlatformView). -->
+    <activity
+      android:name=".PrimerCheckoutActivity"
+      android:exported="false"
+      android:theme="@style/Theme.BanxaPrimerCheckout" />
+  </application>
+</manifest>

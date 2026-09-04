@@ -1,0 +1,30 @@
+name: banxa_payments_flutter_android
+description: Android implementation of the banxa_payments_flutter plugin.
+version: 0.1.0
+publish_to: none
+homepage: https://banxa.com
+repository: https://github.com/BanxaOfficial/flutter-payments-sdk
+issue_tracker: https://github.com/BanxaOfficial/flutter-payments-sdk/issues
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.19.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  banxa_payments_flutter_platform_interface:
+    path: ../banxa_payments_flutter_platform_interface
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.banxa.flutterpaymentsdk
+        pluginClass: BanxaPaymentsFlutterAndroidPlugin
+        dartPluginClass: BanxaPaymentsFlutterAndroid
