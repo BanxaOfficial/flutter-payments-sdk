@@ -1,10 +1,13 @@
 name: banxa_payments_flutter_platform_interface
-description: Platform interface for the banxa_payments_flutter plugin.
+description: >-
+  Platform interface for the Banxa Flutter payments plugin. App code should
+  depend on banxa_payments_flutter, not this package.
 version: 0.1.0
-publish_to: none
 homepage: https://banxa.com
 repository: https://github.com/BanxaOfficial/flutter-payments-sdk
 issue_tracker: https://github.com/BanxaOfficial/flutter-payments-sdk/issues
+topics:
+  - payments
 
 environment:
   sdk: ">=3.12.2 <4.0.0"

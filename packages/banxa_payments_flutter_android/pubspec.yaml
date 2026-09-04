@@ -1,10 +1,14 @@
 name: banxa_payments_flutter_android
-description: Android implementation of the banxa_payments_flutter plugin.
+description: >-
+  Android implementation of the Banxa Flutter payments plugin (Primer Checkout
+  3.x, preview). App code should depend on banxa_payments_flutter, not this
+  package.
 version: 0.1.0
-publish_to: none
 homepage: https://banxa.com
 repository: https://github.com/BanxaOfficial/flutter-payments-sdk
 issue_tracker: https://github.com/BanxaOfficial/flutter-payments-sdk/issues
+topics:
+  - payments
 
 environment:
   sdk: ">=3.12.2 <4.0.0"
@@ -13,8 +17,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  banxa_payments_flutter_platform_interface:
-    path: ../banxa_payments_flutter_platform_interface
+  banxa_payments_flutter_platform_interface: ^0.1.0
 
 dev_dependencies:
   flutter_test:
