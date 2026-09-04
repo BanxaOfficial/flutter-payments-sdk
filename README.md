@@ -1,10 +1,7 @@
 # banxa_payments_flutter
 
 **Preview (0.1.0).** Flutter plugin for Banxa partner-api v2 catalog/order APIs
-and Primer native checkout (iOS + Android). Not general availability: Android
-still depends on Primer Checkout `3.0.0-beta.2`, packages are unpublished
-(`publish_to: none`), and partners should pin a specific git commit until a
-registry version exists.
+and Primer native checkout (iOS + Android).
 
 ## Status
 
@@ -25,8 +22,8 @@ Native checkout phase is in place on iOS and Android:
 
 | Constraint | Value |
 |------------|--------|
-| Dart | `>=3.3.0 <4.0.0` |
-| Flutter | `>=3.19.0` |
+| Dart | `>=3.10.0 <4.0.0` |
+| Flutter | `>=3.38.0` |
 | iOS | **13.1+** (PrimerSDK SPM floor) |
 | Android | **minSdk 24+** (Primer Checkout 3.x) |
 

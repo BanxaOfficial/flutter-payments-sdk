@@ -5,6 +5,7 @@
 - First preview of `banxa_payments_flutter`: partner-api v2 catalog/order APIs,
   Primer native checkout (iOS 2.49.0, Android 3.0.0-beta.2), and hosted
   checkout in a Flutter WebView.
+- Requires Dart `>=3.10.0` and Flutter `>=3.38.0` (`webview_flutter` 4.14.x).
 - **Preview only.** Android Primer is still a beta dependency; do not treat
   this as general availability. Packages are unpublished (`publish_to: none`)
   and consumed from this monorepo via path dependencies until a registry

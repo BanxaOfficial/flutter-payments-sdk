@@ -7,17 +7,24 @@ on:
 
 jobs:
   test:
-    name: Analyze & test (Flutter ${{ matrix.flutter }})
+    name: Analyze & test (Flutter ${{ matrix.label }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        flutter: ["3.19.0", "stable"]
+        include:
+          # Minimum supported floor, per the pubspec environment constraint.
+          - label: "3.38.0"
+            flutter-version: "3.38.0"
+          # Empty version means "latest release on the channel".
+          - label: stable
+            flutter-version: ""
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ matrix.flutter }}
+          channel: stable
+          flutter-version: ${{ matrix.flutter-version }}
           cache: true
       - run: flutter --version
       - run: dart pub get

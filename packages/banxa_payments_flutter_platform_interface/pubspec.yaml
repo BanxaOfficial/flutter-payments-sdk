@@ -7,8 +7,8 @@ repository: https://github.com/BanxaOfficial/flutter-payments-sdk
 issue_tracker: https://github.com/BanxaOfficial/flutter-payments-sdk/issues
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"
-  flutter: ">=3.19.0"
+  sdk: ">=3.10.0 <4.0.0"
+  flutter: ">=3.38.0"
 
 dependencies:
   flutter:
