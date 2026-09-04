@@ -68,9 +68,9 @@ coverage/
 **/Pods/
 **/DerivedData/
 **/.swiftpm/
-*.xcworkspace
-!default.xcworkspace
-xcuserdata/
+# Runner.xcworkspace itself must stay tracked: `flutter build ios` integrates
+# Swift Package Manager into it and fails without it. Only user state is local.
+**/xcuserdata/
 *.xcuserstate
 *.ipa
 *.dSYM.zip

@@ -5,11 +5,12 @@ import PackageDescription
 // Swift Package Manager support. CocoaPods consumers use
 // ../banxa_payments_flutter_ios.podspec, which compiles the same sources.
 //
-// iOS 13.1 is PrimerSDK's own SPM floor.
+// Flutter enforces a 15.0 deployment target from 3.47 onward. PrimerSDK's own
+// SPM floor is 13.1, so 15.0 is the binding constraint.
 let package = Package(
   name: "banxa_payments_flutter_ios",
   platforms: [
-    .iOS("13.1")
+    .iOS("15.0")
   ],
   products: [
     .library(

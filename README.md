@@ -22,9 +22,9 @@ Native checkout phase is in place on iOS and Android:
 
 | Constraint | Value |
 |------------|--------|
-| Dart | `>=3.10.0 <4.0.0` |
-| Flutter | `>=3.38.0` |
-| iOS | **13.1+** (PrimerSDK SPM floor) |
+| Dart | `>=3.12.2 <4.0.0` |
+| Flutter | `>=3.44.9` |
+| iOS | **15.0+** (Flutter's deployment target from 3.47) |
 | Android | **minSdk 24+** (Primer Checkout 3.x) |
 
 Primer and Primer3DS add native binary size. Measure with
@@ -251,23 +251,25 @@ packages/banxa_payments_flutter_ios/ios/
     └── Sources/banxa_payments_flutter_ios/*.swift
 ```
 
-Minimum iOS is **13.1**, which is PrimerSDK's own Swift Package floor. Keep the
-podspec's `source_files` and Package.swift's target pointed at the same
-`Sources/` directory, and keep the Pigeon `swiftOut` path in
+Minimum iOS is **15.0**, the deployment target Flutter enforces from 3.47
+onward. PrimerSDK's own Swift Package floor is lower (13.1), so Flutter is the
+binding constraint; 15.0 is declared unconditionally so the floor is the same on
+every supported Flutter. Keep the podspec's `source_files` and Package.swift's target
+pointed at the same `Sources/` directory, and keep the Pigeon `swiftOut` path in
 `pigeons/messages.dart` in sync if the layout ever moves.
 
-### The 13.1 minimum and Swift Package Manager
+### The 15.0 minimum and Swift Package Manager
 
-Host apps must set `IPHONEOS_DEPLOYMENT_TARGET` to 13.1 or higher. Flutter
+Host apps must set `IPHONEOS_DEPLOYMENT_TARGET` to 15.0 or higher. Flutter
 generates a `FlutterGeneratedPluginSwiftPackage` that depends on this plugin and
-declares Flutter's default minimum (13.0), then raises it to the Xcode project's
+declares Flutter's default minimum, then raises it to the Xcode project's
 deployment target — but only from inside the `flutter` iOS build pipeline.
 `flutter pub get`, `flutter test` and `flutter analyze` regenerate that manifest
 back to the default, so building straight from Xcode afterwards fails with:
 
 ```
 The package product 'banxa-payments-flutter-ios' requires minimum platform
-version 13.1 for the iOS platform, but this target supports 13.0
+version 15.0 for the iOS platform, but this target supports 13.0
 ```
 
 Let the Flutter tool configure the project first, then build in Xcode:

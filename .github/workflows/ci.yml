@@ -14,8 +14,8 @@ jobs:
       matrix:
         include:
           # Minimum supported floor, per the pubspec environment constraint.
-          - label: "3.38.0"
-            flutter-version: "3.38.0"
+          - label: "3.44.9"
+            flutter-version: "3.44.9"
           # Empty version means "latest release on the channel".
           - label: stable
             flutter-version: ""

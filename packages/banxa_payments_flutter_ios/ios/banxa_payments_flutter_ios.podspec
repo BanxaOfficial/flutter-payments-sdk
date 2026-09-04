@@ -22,8 +22,9 @@ Banxa partner-api v2 + Primer native checkout for Flutter on iOS.
   # Pinned Primer iOS 2.49.0 (same generation as Banxa's existing native iOS client).
   s.dependency 'PrimerSDK', '2.49.0'
   s.dependency 'PrimerCore', '2.49.0'
-  # Matches PrimerSDK's Swift Package Manager floor.
-  s.platform = :ios, '13.1'
+  # Flutter enforces a 15.0 deployment target from 3.47 onward; PrimerSDK's own
+  # floor is lower (13.1), so 15.0 is the binding constraint.
+  s.platform = :ios, '15.0'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
   s.swift_version = '5.0'
 end
