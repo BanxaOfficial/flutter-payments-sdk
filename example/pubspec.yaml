@@ -18,5 +18,15 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^4.0.0
 
+# The plugin's federated siblings are hosted deps, so a version that is not yet
+# on pub.dev would leave the example unresolvable. Build it against this repo.
+dependency_overrides:
+  banxa_payments_flutter_platform_interface:
+    path: ../packages/banxa_payments_flutter_platform_interface
+  banxa_payments_flutter_ios:
+    path: ../packages/banxa_payments_flutter_ios
+  banxa_payments_flutter_android:
+    path: ../packages/banxa_payments_flutter_android
+
 flutter:
   uses-material-design: true
