@@ -1,7 +1,7 @@
 name: banxa_payments_flutter_example
 description: Example app for banxa_payments_flutter.
 publish_to: none
-version: 0.1.0+1
+version: 0.1.1+1
 
 environment:
   sdk: ">=3.12.2 <4.0.0"
