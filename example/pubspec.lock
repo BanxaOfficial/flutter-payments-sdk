@@ -15,28 +15,28 @@ packages:
       path: "../packages/banxa_payments_flutter"
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.1.1"
   banxa_payments_flutter_android:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../packages/banxa_payments_flutter_android"
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.1.1"
   banxa_payments_flutter_ios:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../packages/banxa_payments_flutter_ios"
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.1.1"
   banxa_payments_flutter_platform_interface:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../packages/banxa_payments_flutter_platform_interface"
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.1.1"
   boolean_selector:
     dependency: transitive
     description:

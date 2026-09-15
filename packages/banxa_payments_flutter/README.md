@@ -1,9 +1,9 @@
 # banxa_payments_flutter
 
-**Preview (0.1.0).** Flutter plugin for Banxa partner-api v2: catalog and orders,
+**Preview (0.1.1).** Flutter plugin for Banxa partner-api v2: catalog and orders,
 native checkout (Primer), and hosted checkout in a WebView.
 
-Pin **`0.1.0`**. Do not use a caret range until GA. Android native checkout still
+Pin **`0.1.1`**. Do not use a caret range until GA. Android native checkout still
 uses Primer Checkout `3.0.0-beta.2`. Support: [support@banxa.com](mailto:support@banxa.com).
 
 ## Requirements
@@ -12,13 +12,22 @@ uses Primer Checkout `3.0.0-beta.2`. Support: [support@banxa.com](mailto:support
 |------------|--------|
 | Dart | `>=3.12.2 <4.0.0` |
 | Flutter | `>=3.44.9` |
-| iOS | **15.0+** |
 | Android | **minSdk 24+** |
 
-Set the iOS deployment target to 15.0 in Xcode. After `flutter pub get` /
-`flutter test` / `flutter analyze`, build once with Flutter before opening the
-iOS project in Xcode (`flutter build ios --config-only`), or Xcode may still
-show a 13.0 minimum and fail to resolve this plugin.
+This plugin’s iOS floor is **13.1** (PrimerSDK). What your **app** can target
+depends on the Flutter SDK you compile with:
+
+| Flutter | Host app iOS |
+|---------|----------------|
+| **3.44.9** (and other releases before 3.47) | **13.1+** |
+| **3.47+** | **15.0+** — Flutter raises `IPHONEOS_DEPLOYMENT_TARGET` on `flutter build ios`. The plugin cannot override that. |
+
+Set Xcode’s iOS deployment target to match the table (13.1 on 3.44.9, 15.0 on
+3.47+). After `flutter pub get` / `flutter test` / `flutter analyze`, build once
+with Flutter before opening the iOS project in Xcode
+(`flutter build ios --config-only`). Otherwise Flutter’s generated Swift
+package may still declare 13.0 and fail to resolve this plugin (which needs
+13.1).
 
 Primer adds native binary size. Measure with `flutter build appbundle --analyze-size`
 and an iOS archive if that matters for your app.
@@ -41,11 +50,11 @@ Missing iOS usage strings crash when capture starts.
 
 ```yaml
 dependencies:
-  banxa_payments_flutter: 0.1.0
+  banxa_payments_flutter: 0.1.1
 ```
 
 ```sh
-flutter pub add banxa_payments_flutter:0.1.0
+flutter pub add banxa_payments_flutter:0.1.1
 ```
 
 Do not depend on `banxa_payments_flutter_ios`, `_android`, or
@@ -71,7 +80,6 @@ await BanxaPayments.configure(
 | Environment | Host |
 |-------------|------|
 | sandbox | `https://api.banxa-sandbox.com` |
-| preprod | `https://api.banxa-preprod.com` |
 | production | `https://api.banxa.com` |
 
 Requests go to `{host}/{partnerId}/v2` with `x-api-key` and

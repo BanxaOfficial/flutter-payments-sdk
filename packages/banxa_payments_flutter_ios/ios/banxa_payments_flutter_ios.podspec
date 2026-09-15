@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   # Flutter resolves the iOS plugin via this package-matching name.
   # Product branding / CocoaPods public name intent: BanxaPaymentsFlutter.
   s.name             = 'banxa_payments_flutter_ios'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'Banxa native checkout Flutter plugin (iOS).'
   s.description      = <<-DESC
 Banxa partner-api v2 + Primer native checkout for Flutter on iOS.
@@ -22,9 +22,9 @@ Banxa partner-api v2 + Primer native checkout for Flutter on iOS.
   # Pinned Primer iOS 2.49.0 (same generation as Banxa's existing native iOS client).
   s.dependency 'PrimerSDK', '2.49.0'
   s.dependency 'PrimerCore', '2.49.0'
-  # Flutter enforces a 15.0 deployment target from 3.47 onward; PrimerSDK's own
-  # floor is lower (13.1), so 15.0 is the binding constraint.
-  s.platform = :ios, '15.0'
+  # PrimerSDK's Swift Package / CocoaPods floor. Flutter 3.47+ still raises the
+  # *host app* to 15.0; this plugin does not.
+  s.platform = :ios, '13.1'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
   s.swift_version = '5.0'
 end
