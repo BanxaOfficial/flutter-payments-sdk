@@ -155,6 +155,109 @@ The first hosted URL must be `https` on a Banxa host (`*.banxa.com`,
 bank/wallet `https` pages (3DS). JavaScript is on for the hosted UI; there is
 no JS bridge into your app.
 
+## Hosted KYC
+
+Verify a customer with Banxa's hosted flow **before** any order exists, then
+use native payments as usual. Create a session, then show it in
+`BanxaHostedKycView`.
+
+Create the session on **your backend** (`POST /{partnerId}/v2/kyc/sessions`)
+and send `redirectUrl` and `expiresAt` to the app. That way the API key is
+never the only thing protecting the endpoint. `createKycSession` is there for
+apps that already call partner-api directly:
+
+```dart
+// From your backend:
+final session = KycSession(redirectUrl: redirectUrl, expiresAt: expiresAt);
+
+// Or from the app:
+final session = await BanxaPayments.createKycSession(
+  const CreateKycSessionRequest(
+    externalCustomerId: 'customer-123',
+    tier: KycTier.standard, // optional, server default
+    country: 'AU', // optional
+    returnUrl: 'myapp://kyc-done', // optional, https or a deep link
+  ),
+);
+
+Navigator.of(context).push(
+  MaterialPageRoute<void>(
+    builder: (context) => Scaffold(
+      appBar: AppBar(title: const Text('Verify identity')),
+      body: BanxaHostedKycView(
+        session: session,
+        returnUrl: 'myapp://kyc-done', // the one the session was created with
+        onEvent: (event) {
+          switch (event) {
+            case BanxaKycCompleted():
+              Navigator.of(context).pop();
+            case BanxaKycFailed(:final reason):
+              // Every reason except flowError ends the session.
+              if (reason != BanxaKycFailureReason.flowError) {
+                Navigator.of(context).pop();
+              }
+            case BanxaKycReady() || BanxaKycLoading():
+              break;
+            case BanxaKycMessageRejected():
+              // Diagnostic: a banxa:* message was ignored.
+              break;
+            case BanxaKycDismissed():
+              // The view closed before the flow ended.
+              break;
+          }
+        },
+      ),
+    ),
+  ),
+);
+```
+
+`BanxaHostedKycView` never pops itself. `BanxaKycCompleted` is a UI signal
+only. **The verification result reaches your backend by webhook.** There is no
+status endpoint to poll.
+
+### KYC events
+
+| Event | When |
+|-------|------|
+| `BanxaKycCompleted(status, channel)` | Fires once. `channel` is `message` (the page posted `banxa:kyc-complete`) or `returnUrl` (the page navigated to your `returnUrl`) |
+| `BanxaKycFailed(reason, code, message)` | `sessionExpired`, `invalidSessionUrl` and `unsupportedOsVersion` are reported before anything loads. Then `loadTimeout` (30s), `loadFailed`, or `flowError` (the page posted `banxa:error`, and the flow continues) |
+| `BanxaKycReady` / `BanxaKycLoading` | The page posted `banxa:ready` / `banxa:loading` |
+| `BanxaKycMessageRejected(reason, type, origin)` | A `banxa:*` message was ignored: `frame` (it didn't come from the main page) or `origin` (it came from outside the session URL's origin and `allowedOrigins`) |
+| `BanxaKycDismissed` | The view was disposed before the flow ended |
+
+The page only posts `banxa:kyc-complete` for merchants with
+`embeddedButtonOnlyIframeEnabled`. **Always pass a `returnUrl`**, both when
+creating the session and to the view, so completion still arrives without
+that setting. Navigating to `returnUrl` is stopped inside the view, so a deep
+link never shows an error page.
+
+Pass `allowedOrigins` if your flow is served from more than one Banxa host.
+Messages and camera access are only accepted from the session URL's origin and
+these.
+
+### Camera and microphone
+
+The flow captures identity documents and a liveness video inside the page:
+
+- **iOS**: add `NSCameraUsageDescription` and `NSMicrophoneUsageDescription`
+  to `Info.plist`. **The app crashes when capture starts without them.**
+  Capture needs iOS 14.3 or later, so on older versions the view reports
+  `unsupportedOsVersion`.
+- **Android**: declare `android.permission.CAMERA` and
+  `android.permission.RECORD_AUDIO`, and **request both at runtime before
+  showing the view**. The SDK grants the WebView's request, but Android
+  still refuses capture if the app doesn't hold the permission.
+
+### Notes
+
+- Sessions are idempotent per `externalCustomerId` for 1 hour. A retry returns
+  the same link. An expired link is refused with `sessionExpired` instead of
+  showing Banxa's expiry page.
+- `KycTier.express` is accepted but not binding.
+- A `ServerException` with `statusCode` **403** means the merchant isn't
+  enabled for hosted KYC. **502** is a temporary upstream failure, so retry.
+
 ## Apple Pay and Google Pay
 
 Apple Pay needs a merchant identifier and the matching

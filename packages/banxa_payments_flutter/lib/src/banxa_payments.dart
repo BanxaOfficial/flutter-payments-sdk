@@ -6,6 +6,7 @@ import 'api/parsers.dart';
 import 'checkout/checkout_event_hub.dart';
 import 'checkout/checkout_launch.dart';
 import 'checkout/checkout_url_matcher.dart';
+import 'kyc/kyc_models.dart';
 import 'sdk_state.dart';
 
 /// App-facing Banxa payments API.
@@ -187,6 +188,18 @@ class BanxaPayments {
               'and the order has no usable Banxa checkoutUrl to fall back to.',
     );
   }
+
+  /// Creates a hosted KYC session (`POST /kyc/sessions`).
+  ///
+  /// Throws [SdkNotConfiguredException], [ValidationException],
+  /// [UnauthorizedException], [ServerException], [NetworkException], or
+  /// [UnknownException].
+  static Future<KycSession> createKycSession(
+    CreateKycSessionRequest request,
+  ) async =>
+      parseKycSession(
+        await _api.post('/kyc/sessions', createKycSessionBody(request)),
+      );
 
   /// Optional mid-flow Primer session patch (`POST /primer/session`).
   ///

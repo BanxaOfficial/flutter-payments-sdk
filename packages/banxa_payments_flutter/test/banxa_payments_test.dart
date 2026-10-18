@@ -247,4 +247,95 @@ void main() {
     expect(received.single, isA<BanxaCheckoutCompleted>());
     await sub.cancel();
   });
+
+  test('createKycSession posts the request and returns the session', () async {
+    http.Request? sent;
+    await _configure(
+      MockClient((request) async {
+        sent = request;
+        return http.Response(
+          '{"redirectUrl":"https://partner.banxa-sandbox.com/kyc/abc",'
+          '"expiresAt":"2026-09-23T11:00:00+00:00"}',
+          201,
+        );
+      }),
+    );
+
+    final session = await BanxaPayments.createKycSession(
+      const CreateKycSessionRequest(
+        externalCustomerId: 'cust-1',
+        tier: KycTier.standard,
+      ),
+    );
+
+    expect(session.redirectUrl, 'https://partner.banxa-sandbox.com/kyc/abc');
+    expect(sent!.method, 'POST');
+    expect(
+      sent!.url.toString(),
+      'https://api.banxa-sandbox.com/partner/v2/kyc/sessions',
+    );
+    expect(sent!.headers['x-api-key'], 'key');
+    expect(
+      jsonDecode(sent!.body),
+      {'externalCustomerId': 'cust-1', 'tier': 'standard'},
+    );
+  });
+
+  test('createKycSession before configure throws SdkNotConfiguredException',
+      () {
+    expect(
+      () => BanxaPayments.createKycSession(
+        const CreateKycSessionRequest(externalCustomerId: 'cust-1'),
+      ),
+      throwsA(isA<SdkNotConfiguredException>()),
+    );
+  });
+
+  test('createKycSession keeps the 403 and 502 status codes', () async {
+    for (final status in [403, 502]) {
+      await _configure(
+        MockClient((_) async => http.Response('{"message":"nope"}', status)),
+      );
+
+      await expectLater(
+        BanxaPayments.createKycSession(
+          const CreateKycSessionRequest(externalCustomerId: 'cust-1'),
+        ),
+        throwsA(
+          isA<ServerException>().having(
+            (e) => e.statusCode,
+            'statusCode',
+            status,
+          ),
+        ),
+      );
+    }
+  });
+
+  test('createKycSession surfaces a 422 as ValidationException', () async {
+    await _configure(
+      MockClient(
+        (_) async => http.Response(
+          '{"message":"Invalid","errors":{"country":["Too long"]}}',
+          422,
+        ),
+      ),
+    );
+
+    await expectLater(
+      BanxaPayments.createKycSession(
+        const CreateKycSessionRequest(
+          externalCustomerId: 'cust-1',
+          country: 'AUS',
+        ),
+      ),
+      throwsA(
+        isA<ValidationException>().having(
+          (e) => e.errors.single.field,
+          'field',
+          'country',
+        ),
+      ),
+    );
+  });
 }

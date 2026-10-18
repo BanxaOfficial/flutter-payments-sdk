@@ -1,5 +1,7 @@
 import 'package:banxa_payments_flutter_platform_interface/banxa_payments_flutter_platform_interface.dart';
 
+import '../kyc/kyc_models.dart';
+
 /// Wire (partner-api v2 camelCase JSON) -> Dart models.
 
 List<Country> parseCountries(dynamic json) =>
@@ -229,4 +231,20 @@ String? _string(dynamic value) {
   }
   final text = value is String ? value : '$value';
   return text.isEmpty ? null : text;
+}
+
+/// Builds the POST /kyc/sessions body, leaving out unset fields.
+Map<String, dynamic> createKycSessionBody(CreateKycSessionRequest request) => {
+      'externalCustomerId': request.externalCustomerId,
+      if (request.tier != null) 'tier': request.tier!.wireValue,
+      if (request.country != null) 'country': request.country,
+      if (request.returnUrl != null) 'returnUrl': request.returnUrl,
+    };
+
+KycSession parseKycSession(dynamic json) {
+  final map = _map(json);
+  return KycSession(
+    redirectUrl: _string(map['redirectUrl']) ?? '',
+    expiresAt: _string(map['expiresAt']) ?? '',
+  );
 }
