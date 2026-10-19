@@ -68,6 +68,9 @@ coverage/
 **/Pods/
 **/DerivedData/
 **/.swiftpm/
+**/.build/
+# Library resolve pin. Example app locks live under xcshareddata/swiftpm and stay tracked.
+packages/banxa_payments_flutter_ios/**/Package.resolved
 # Runner.xcworkspace itself must stay tracked: `flutter build ios` integrates
 # Swift Package Manager into it and fails without it. Only user state is local.
 **/xcuserdata/

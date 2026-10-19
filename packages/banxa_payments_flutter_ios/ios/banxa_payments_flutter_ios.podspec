@@ -19,9 +19,9 @@ Banxa partner-api v2 + Primer native checkout for Flutter on iOS.
   s.source           = { :path => '.' }
   s.source_files     = 'banxa_payments_flutter_ios/Sources/banxa_payments_flutter_ios/**/*.swift'
   s.dependency 'Flutter'
-  # Pinned Primer iOS 2.49.0 (same generation as Banxa's existing native iOS client).
-  s.dependency 'PrimerSDK', '2.49.0'
-  s.dependency 'PrimerCore', '2.49.0'
+  # >=2.49.0 <3.0.0. Host apps can pin any 2.x in that range.
+  s.dependency 'PrimerSDK', '>= 2.49.0', '< 3.0.0'
+  s.dependency 'PrimerCore', '>= 2.49.0', '< 3.0.0'
   # PrimerSDK's Swift Package / CocoaPods floor. Flutter 3.47+ still raises the
   # *host app* to 15.0; this plugin does not.
   s.platform = :ios, '13.1'

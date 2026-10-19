@@ -1,6 +1,6 @@
 # banxa_payments_flutter_ios
 
-iOS implementation of [`banxa_payments_flutter`](https://pub.dev/packages/banxa_payments_flutter) (PrimerSDK 2.49.0).
+iOS implementation of [`banxa_payments_flutter`](https://pub.dev/packages/banxa_payments_flutter) (PrimerSDK >=2.49.0 <3.0.0).
 
 **Do not add this package to a partner app.** Depend on `banxa_payments_flutter` `0.1.1` instead. Pub pulls this implementation in automatically.
 
