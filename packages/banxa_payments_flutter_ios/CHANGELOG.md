@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2
+
+- Primer iOS (`PrimerSDK` and CocoaPods `PrimerCore`) is **>=2.49.0 <3.0.0**
+  instead of an exact 2.49.0 pin. Host apps can pin any 2.x in that range.
+
 ## 0.1.1
 
 - CocoaPods / Swift Package Manager floor is **iOS 13.1** (PrimerSDK). Flutter

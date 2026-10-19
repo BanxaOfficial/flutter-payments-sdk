@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- Version aligned with `banxa_payments_flutter` 0.1.2. No Android API change.
+
 ## 0.1.1
 
 - Version aligned with `banxa_payments_flutter` 0.1.1. No Android API change.

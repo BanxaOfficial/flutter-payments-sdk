@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   # Flutter resolves the iOS plugin via this package-matching name.
   # Product branding / CocoaPods public name intent: BanxaPaymentsFlutter.
   s.name             = 'banxa_payments_flutter_ios'
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
   s.summary          = 'Banxa native checkout Flutter plugin (iOS).'
   s.description      = <<-DESC
 Banxa partner-api v2 + Primer native checkout for Flutter on iOS.

@@ -1,9 +1,9 @@
 # banxa_payments_flutter
 
-**Preview (0.1.1).** Flutter plugin for Banxa partner-api v2: catalog and orders,
+**Preview (0.1.2).** Flutter plugin for Banxa partner-api v2: catalog and orders,
 native checkout (Primer), and hosted checkout in a WebView.
 
-Pin **`0.1.1`**. Do not use a caret range until GA. Android native checkout still
+Pin **`0.1.2`**. Do not use a caret range until GA. Android native checkout still
 uses Primer Checkout `3.0.0-beta.2`. Support: [support@banxa.com](mailto:support@banxa.com).
 
 ## Requirements
@@ -50,11 +50,11 @@ Missing iOS usage strings crash when capture starts.
 
 ```yaml
 dependencies:
-  banxa_payments_flutter: 0.1.1
+  banxa_payments_flutter: 0.1.2
 ```
 
 ```sh
-flutter pub add banxa_payments_flutter:0.1.1
+flutter pub add banxa_payments_flutter:0.1.2
 ```
 
 Do not depend on `banxa_payments_flutter_ios`, `_android`, or

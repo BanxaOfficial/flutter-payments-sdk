@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2
+
+- Version aligned with `banxa_payments_flutter` 0.1.2. No platform-interface
+  API change.
+
 ## 0.1.1
 
 - Version aligned with `banxa_payments_flutter` 0.1.1. No platform-interface
