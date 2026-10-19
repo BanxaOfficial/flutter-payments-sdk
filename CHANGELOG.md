@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2
+
+- Primer iOS is a range, **>=2.49.0 <3.0.0**, in both Swift Package Manager and
+  CocoaPods. Host apps can pin any 2.x in that range. Primer 3.x is not allowed.
+
 ## 0.1.1
 
 - iOS plugin floor is **13.1** (PrimerSDK). Flutter **3.44.9** host apps can
