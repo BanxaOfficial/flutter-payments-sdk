@@ -63,6 +63,16 @@ sys.exit(0 if version in versions else 1)
 PY
 }
 
+# pub caches hosted version listings on disk. A listing fetched before a sibling
+# was published keeps the solver from seeing the new version, so drop it.
+purge_listing_cache() {
+  local cache="${PUB_CACHE:-$HOME/.pub-cache}/hosted/pub.dev/.cache"
+  local pkg
+  for pkg in "${PACKAGES[@]}"; do
+    rm -f "$cache/$pkg-versions.json"
+  done
+}
+
 wait_on_pub() {
   local name="$1" version="$2"
   local i
@@ -70,11 +80,32 @@ wait_on_pub() {
   for i in $(seq 1 36); do
     if on_pub "$name" "$version"; then
       echo "  found $name $version"
+      purge_listing_cache
       return 0
     fi
     sleep 10
   done
   echo "Timed out waiting for $name $version (6 minutes)." >&2
+  exit 1
+}
+
+# The listing can still be stale behind pub.dev's CDN for a short while after
+# the API reports the version, so give the solver a few attempts.
+publish_with_retry() {
+  local dir="$1" name="$2" attempt
+  for attempt in 1 2 3 4 5; do
+    if (cd "$dir" && dart pub publish --force); then
+      return 0
+    fi
+    if on_pub "$name" "$(read_version "$dir")"; then
+      echo "  $name is on pub.dev despite the failure; continuing."
+      return 0
+    fi
+    echo "  publish attempt $attempt failed; refreshing listings and retrying in 20s…" >&2
+    purge_listing_cache
+    sleep 20
+  done
+  echo "Giving up on $name after 5 attempts." >&2
   exit 1
 }
 
@@ -118,9 +149,11 @@ for pkg in "${PACKAGES[@]}"; do
 
   if [[ "$PUBLISH" -eq 1 ]]; then
     hide_overrides "$dir"
-    (cd "$dir" && dart pub publish --force)
+    purge_listing_cache
+    publish_with_retry "$dir" "$pkg"
     wait_on_pub "$pkg" "$version"
   else
+    purge_listing_cache
     (cd "$dir" && dart pub publish --dry-run)
   fi
 done

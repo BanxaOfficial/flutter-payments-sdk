@@ -18,10 +18,10 @@ let package = Package(
     )
   ],
   dependencies: [
-    // Pinned to the same generation as Banxa's native iOS client.
+    // >=2.49.0 <3.0.0. Host apps can pin any 2.x in that range.
     .package(
       url: "https://github.com/primer-io/primer-sdk-ios.git",
-      exact: "2.49.0"
+      from: "2.49.0"
     )
   ],
   targets: [
