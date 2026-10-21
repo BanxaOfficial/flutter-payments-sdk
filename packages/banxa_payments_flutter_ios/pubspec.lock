@@ -12,10 +12,11 @@ packages:
   banxa_payments_flutter_platform_interface:
     dependency: "direct main"
     description:
-      path: "../banxa_payments_flutter_platform_interface"
-      relative: true
-    source: path
-    version: "0.1.1"
+      name: banxa_payments_flutter_platform_interface
+      sha256: "52c5c3effa9e8e6ceb8c219c832d42a9b5720b59b814b3ed31f7c909c5bd7eb4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   boolean_selector:
     dependency: transitive
     description:
