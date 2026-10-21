@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- remove android classpath forcing kotlin version 2.2.20
+
 ## 0.1.2
 
 - Primer iOS is a range, **>=2.49.0 <3.0.0**, in both Swift Package Manager and

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- remove android classpath forcing kotlin version 2.2.20
+
 ## 0.1.2
 
 - Version aligned with `banxa_payments_flutter` 0.1.2. No Android API change.
