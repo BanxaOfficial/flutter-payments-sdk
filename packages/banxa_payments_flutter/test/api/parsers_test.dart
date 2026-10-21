@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:banxa_payments_flutter/src/api/parsers.dart';
+import 'package:banxa_payments_flutter/src/kyc/kyc_models.dart';
 import 'package:banxa_payments_flutter_platform_interface/banxa_payments_flutter_platform_interface.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -107,5 +108,69 @@ void main() {
   test('orderPath switches on order type', () {
     expect(orderPath(OrderType.buy), '/buy');
     expect(orderPath(OrderType.sell), '/sell');
+  });
+
+  test('createKycSessionBody leaves out fields that were not supplied', () {
+    final body = createKycSessionBody(
+      const CreateKycSessionRequest(externalCustomerId: 'cust-1'),
+    );
+
+    expect(body, {'externalCustomerId': 'cust-1'});
+  });
+
+  test('createKycSessionBody uses wire keys and the tier wire value', () {
+    final body = createKycSessionBody(
+      const CreateKycSessionRequest(
+        externalCustomerId: 'cust-1',
+        tier: KycTier.enhanced,
+        country: 'AU',
+        returnUrl: 'myapp://kyc-done',
+      ),
+    );
+
+    expect(body, {
+      'externalCustomerId': 'cust-1',
+      'tier': 'enhanced',
+      'country': 'AU',
+      'returnUrl': 'myapp://kyc-done',
+    });
+  });
+
+  test('parseKycSession reads the unwrapped body', () {
+    final session = parseKycSession(
+      jsonDecode('''
+        {"redirectUrl":"https://partner.banxa-sandbox.com/kyc/abc",
+         "expiresAt":"2026-09-23T11:00:00+00:00"}
+      '''),
+    );
+
+    expect(session.redirectUrl, 'https://partner.banxa-sandbox.com/kyc/abc');
+    expect(session.expiresAt, '2026-09-23T11:00:00+00:00');
+  });
+
+  test('KycSession.expirationDate parses offsets and fractional seconds', () {
+    const offset = KycSession(
+      redirectUrl: 'https://partner.banxa.com/kyc',
+      expiresAt: '2026-09-23T11:00:00+00:00',
+    );
+    const fractional = KycSession(
+      redirectUrl: 'https://partner.banxa.com/kyc',
+      expiresAt: '2026-09-23T11:00:00.123456Z',
+    );
+
+    expect(offset.expirationDate, DateTime.utc(2026, 9, 23, 11));
+    expect(
+      fractional.expirationDate,
+      DateTime.utc(2026, 9, 23, 11, 0, 0, 123, 456),
+    );
+  });
+
+  test('KycSession.expirationDate is null for an unknown format', () {
+    const session = KycSession(
+      redirectUrl: 'https://partner.banxa.com/kyc',
+      expiresAt: 'in an hour',
+    );
+
+    expect(session.expirationDate, isNull);
   });
 }

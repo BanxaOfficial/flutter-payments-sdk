@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:banxa_payments_flutter/banxa_payments_flutter.dart';
 import 'package:banxa_payments_flutter_example/env.dart';
 import 'package:banxa_payments_flutter_example/hosted_checkout_screen.dart';
+import 'package:banxa_payments_flutter_example/hosted_kyc_screen.dart';
 import 'package:flutter/material.dart';
 
 /// Credentials: `--dart-define=BANXA_*` or `--dart-define-from-file=.env`.
@@ -55,6 +56,8 @@ class _HomePageState extends State<HomePage> {
   final _subPartnerId = TextEditingController();
   final _discountCode = TextEditingController();
   final _metadata = TextEditingController();
+  final _kycCustomerId = TextEditingController(text: 'example-customer-1');
+  final _kycReturnUrl = TextEditingController(text: 'myapp://kyc-done');
 
   @override
   void initState() {
@@ -98,6 +101,8 @@ class _HomePageState extends State<HomePage> {
     _subPartnerId.dispose();
     _discountCode.dispose();
     _metadata.dispose();
+    _kycCustomerId.dispose();
+    _kycReturnUrl.dispose();
     super.dispose();
   }
 
@@ -217,6 +222,60 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future<void> _startKyc() async {
+    setState(() => _busy = true);
+    try {
+      final returnUrl = _optional(_kycReturnUrl);
+      final session = await BanxaPayments.createKycSession(
+        CreateKycSessionRequest(
+          externalCustomerId: _kycCustomerId.text.trim(),
+          returnUrl: returnUrl,
+        ),
+      );
+      setState(() => _log.add('kyc session expires ${session.expiresAt}'));
+      if (!mounted) {
+        return;
+      }
+      await Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => HostedKycScreen(
+            session: session,
+            returnUrl: returnUrl,
+            onEvent: _logKycEvent,
+          ),
+        ),
+      );
+    } catch (e) {
+      setState(() => _log.add('createKycSession error: $e'));
+    } finally {
+      if (mounted) {
+        setState(() => _busy = false);
+      }
+    }
+  }
+
+  void _logKycEvent(BanxaKycEvent event) {
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      switch (event) {
+        case BanxaKycCompleted(:final status, :final channel):
+          _log.add('kyc completed status=$status via ${channel.name}');
+        case BanxaKycFailed(:final reason, :final code, :final message):
+          _log.add('kyc failed ${reason.name} code=$code message=$message');
+        case BanxaKycReady():
+          _log.add('kyc ready');
+        case BanxaKycLoading():
+          _log.add('kyc loading');
+        case BanxaKycMessageRejected(:final reason, :final type, :final origin):
+          _log.add('kyc message rejected ${reason.name} $type from $origin');
+        case BanxaKycDismissed():
+          _log.add('kyc dismissed');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -281,6 +340,15 @@ class _HomePageState extends State<HomePage> {
           FilledButton(
             onPressed: _configured && !_busy ? _startPayment : null,
             child: Text(_busy ? 'Starting…' : 'Start payment'),
+          ),
+          const SizedBox(height: 16),
+          Text('Hosted KYC', style: Theme.of(context).textTheme.titleSmall),
+          _field(_kycCustomerId, 'External customer id', 'customer-123'),
+          _field(_kycReturnUrl, 'Return URL (optional)', 'myapp://kyc-done'),
+          const SizedBox(height: 8),
+          FilledButton(
+            onPressed: _configured && !_busy ? _startKyc : null,
+            child: const Text('Start KYC'),
           ),
           const SizedBox(height: 16),
           Text('Event log', style: Theme.of(context).textTheme.titleSmall),
