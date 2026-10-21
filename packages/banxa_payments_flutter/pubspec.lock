@@ -12,24 +12,27 @@ packages:
   banxa_payments_flutter_android:
     dependency: "direct main"
     description:
-      path: "../banxa_payments_flutter_android"
-      relative: true
-    source: path
-    version: "0.1.1"
+      name: banxa_payments_flutter_android
+      sha256: "536788c0418d6d9ddf54eed0a68de52e900f3ea3a13e4321b6b2038600135078"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   banxa_payments_flutter_ios:
     dependency: "direct main"
     description:
-      path: "../banxa_payments_flutter_ios"
-      relative: true
-    source: path
-    version: "0.1.1"
+      name: banxa_payments_flutter_ios
+      sha256: "33618f40e51e842bf982d14f7508e8a59f5f84c3fa8c34a8cc99161502cc0768"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   banxa_payments_flutter_platform_interface:
     dependency: "direct main"
     description:
-      path: "../banxa_payments_flutter_platform_interface"
-      relative: true
-    source: path
-    version: "0.1.1"
+      name: banxa_payments_flutter_platform_interface
+      sha256: "52c5c3effa9e8e6ceb8c219c832d42a9b5720b59b814b3ed31f7c909c5bd7eb4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   boolean_selector:
     dependency: transitive
     description:

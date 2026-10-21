@@ -1,33 +1,17 @@
-group 'com.banxa.flutterpaymentsdk'
-version '0.1.0'
-
-buildscript {
-    ext.kotlin_version = '2.2.20'
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.11.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.kotlin:compose-compiler-gradle-plugin:$kotlin_version"
-    }
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+    // Version comes from the host app's settings.gradle so it matches that
+    // app's Kotlin plugin. A second copy on the buildscript classpath conflicts
+    // with the app and fails variant selection for kotlin-gradle-plugin-api.
+    id "org.jetbrains.kotlin.plugin.compose"
 }
 
-rootProject.allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-// Required from Kotlin 2.0 on, and replaces composeOptions.
-apply plugin: 'org.jetbrains.kotlin.plugin.compose'
+group = "com.banxa.flutterpaymentsdk"
+version = "0.1.0"
 
 android {
-    namespace 'com.banxa.flutterpaymentsdk'
+    namespace "com.banxa.flutterpaymentsdk"
     compileSdk 36
 
     compileOptions {
@@ -36,7 +20,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = "11"
     }
 
     buildFeatures {
@@ -44,8 +28,8 @@ android {
     }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
     }
 
     defaultConfig {
@@ -59,19 +43,19 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
     // Primer Android checkout (Compose sheet), pinned to 3.0.0-beta.2.
-    implementation 'io.primer:checkout:3.0.0-beta.2'
-    implementation 'io.primer:android:3.0.0-beta.2'
+    implementation "io.primer:checkout:3.0.0-beta.2"
+    implementation "io.primer:android:3.0.0-beta.2"
 
-    implementation platform('androidx.compose:compose-bom:2024.06.00')
-    implementation 'androidx.compose.ui:ui'
-    implementation 'androidx.compose.material3:material3'
-    implementation 'androidx.activity:activity-compose:1.9.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.8.3'
+    implementation platform("androidx.compose:compose-bom:2024.06.00")
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.material3:material3"
+    implementation "androidx.activity:activity-compose:1.9.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.8.3"
 
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:5.11.0'
-    testImplementation 'org.mockito.kotlin:mockito-kotlin:5.2.1'
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.mockito:mockito-core:5.11.0"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:5.2.1"
 }

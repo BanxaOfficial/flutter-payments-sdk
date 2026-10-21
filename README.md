@@ -14,6 +14,15 @@ uses Primer Checkout `3.0.0-beta.2`. Support: [support@banxa.com](mailto:support
 | Flutter | `>=3.44.9` |
 | Android | **minSdk 24+** |
 
+Android checkout uses Jetpack Compose. In the app `android/settings.gradle`, declare the Compose compiler plugin at the **same version** as the Kotlin plugin:
+
+```gradle
+id "org.jetbrains.kotlin.android" version "2.2.20" apply false
+id "org.jetbrains.kotlin.plugin.compose" version "2.2.20" apply false
+```
+
+That Kotlin release must support the app's Gradle version. Gradle 8.11 and newer need Kotlin **2.1.20 or newer**. Kotlin 2.1.10 has no Gradle 8.11 plugin variant, so resolution of `kotlin-gradle-plugin-api` fails.
+
 This plugin’s iOS floor is **13.1** (PrimerSDK). What your **app** can target
 depends on the Flutter SDK you compile with:
 
