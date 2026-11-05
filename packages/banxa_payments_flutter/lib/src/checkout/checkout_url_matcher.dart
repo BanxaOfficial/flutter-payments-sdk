@@ -47,7 +47,7 @@ abstract final class CheckoutUrlMatcher {
       return CheckoutOutcome.none;
     }
 
-    if (_matchesRedirect(uri, redirectUrl)) {
+    if (matchesReturnUrl(uri, redirectUrl)) {
       return CheckoutOutcome.completed;
     }
 
@@ -76,7 +76,8 @@ abstract final class CheckoutUrlMatcher {
 
   static bool _isHttps(Uri uri) => uri.scheme.toLowerCase() == 'https';
 
-  static bool _matchesRedirect(Uri uri, String? redirectUrl) {
+  /// Returns whether [uri] is the partner's [redirectUrl] or a path below it.
+  static bool matchesReturnUrl(Uri uri, String? redirectUrl) {
     if (redirectUrl == null || redirectUrl.isEmpty) {
       return false;
     }

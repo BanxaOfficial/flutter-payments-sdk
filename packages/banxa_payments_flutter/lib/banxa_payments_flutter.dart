@@ -38,3 +38,5 @@ export 'package:banxa_payments_flutter_platform_interface/banxa_payments_flutter
 export 'src/banxa_payments.dart';
 export 'src/checkout/checkout_launch.dart';
 export 'src/checkout/hosted_checkout_view.dart';
+export 'src/kyc/hosted_kyc_view.dart';
+export 'src/kyc/kyc_models.dart';
