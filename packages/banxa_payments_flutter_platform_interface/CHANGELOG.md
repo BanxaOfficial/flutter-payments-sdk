@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0
+
+- DE-398: feat(hosted-kyc): add KYC session creation and embedded flow
+
 ## 0.1.3
 
 - remove android classpath forcing kotlin version 2.2.20
